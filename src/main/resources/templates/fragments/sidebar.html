@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div th:fragment="sidebar">
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <div class="sidebar">
+            <ul>
+                <li><a href="/music/home-page">Home</a></li>
+                <li><a href="/music/artists">Artists</a></li>
+                <li><a href="/music/albums">Albums</a></li>
+                <li><a href="/music/showFormForAddArtist">Add Artist</a></li>
+                <li><a href="/music/showFormForAddAlbum">Add Album</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div sec:authorize="hasRole('USER') and !hasRole('ADMIN')">
+        <div class="sidebar">
+            <ul>
+                <li><a href="/music/home-page">Home</a></li>
+                <li><a href="/music/artists">Artists</a></li>
+                <li><a href="/music/albums">Albums</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

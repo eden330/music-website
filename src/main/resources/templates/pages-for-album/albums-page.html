@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Albums Page</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/albums-page.css}">
+</head>
+
+<body>
+
+<div th:insert="fragments/sidebar :: sidebar"></div>
+<br><br>
+<div class="container mt-5">
+    <form th:action="@{/music/searchResultAlbum}" method="get">
+        <div class="input-group mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Search album by name...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="mb-4">
+        <form th:action="@{/music/albums}" method="get">
+            <button type="submit" name="sort" value="asc" class="btn btn-primary">Sortuj A-Z</button>
+            <button type="submit" name="sort" value="desc" class="btn btn-secondary">Sortuj Z-A</button>
+        </form>
+    </div>
+    <div class="row">
+        <div th:each="album : ${albums}" class="col-md-4 col-sm-6 mb-4">
+            <div class="card h-100"> <!-- h-100 makes the card height uniform -->
+                <a th:href="@{/music/album(albumId=${album.id})}" class="album-link">
+                    <img th:src="@{${album.photo}}" alt="Album Cover" class="card-img-top">
+                </a>
+                <div class="card-body">
+                    <a th:href="@{/music/album(albumId=${album.id})}" class="album-link">
+                        <h5 th:text="${album.name}" class="card-title" ></h5>
+                    </a>
+                    <p th:text="${album.description}" class="card-text"></p>
+                    <p th:text="${album.release_date}" class="card-text">Release Date</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

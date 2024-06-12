@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Artist Page</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/artist-page.css}">
+</head>
+<body>
+<h1 th:text="${artist.name}" class="artist-name">Artist Name</h1>
+<div th:insert="fragments/sidebar :: sidebar"></div>
+<div class="artist-container">
+    <div class="artist-profile">
+        <img th:src="${artist.photo}" alt="Artist Photo" class="artist-photo"/>
+        <div class="artist-details">
+            <p th:text="${artist.description}" class="artist-info">Artist Description</p>
+        </div>
+    </div>
+    <ul>
+        <li th:each="album : ${artist.albums}" class="album-details">
+            <img th:src="${album.photo}" alt="Album Cover" class="album-photo"/>
+            <div class="album-info">
+                <h3 th:text="${album.name}">Album Name</h3>
+                <p th:text="${album.description}">Album Description</p>
+                <p th:text="${album.release_date}">Release Date</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

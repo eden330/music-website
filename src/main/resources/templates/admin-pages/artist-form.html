@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Artist form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/artists-page.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dee2e6;
+            margin: 0;
+            padding: 20px;
+        }
+        .form-group {
+        display: flex;
+        align-items: center; /* Align items vertically */
+        justify-content: start;
+        gap: 10px; /* Spacing between the input and the error message */
+        }
+
+        .input-field {
+        flex: 1; /* Allows the input field to fill the space */
+        }
+
+        .error {
+        color: red;
+        margin: 0;
+        font-size: 0.8rem;
+}
+
+    </style>
+</head>
+<body>
+<div th:insert="fragments/sidebar :: sidebar"></div>
+
+<div class="container">
+    <p class="h4 mb-4">Save Artist</p>
+    <form action="#" th:action="@{/music/saveArtist}"
+          th:object="${artist}" method="POST">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-group">
+            <input type="text" class="form-control mb-4 w-25 input-field" th:field="*{name}" placeholder="Artist name">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control mb-4 w-25 input-field" th:field="*{description}"
+                   placeholder="Artist description">
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control mb-4 w-25 input-field" th:field="*{photo}" placeholder="Photo">
+            <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="error"></span>
+        </div>
+
+        <input type="submit" class="btn btn-info col-2" value="Save">
+    </form>
+    <hr>
+    <a th:href="@{/music/artists}">Back to list of artists</a>
+
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4" th:each="artist : ${artists}">
+            <div class="card artist-card">
+                <a th:href="@{/music/artist(artistId=${artist.id})}">
+                    <img th:src="${artist.photo}" alt="Artist Photo" class="card-img-top artist-photo">
+                </a>
+                <div class="card-body artist-info">
+                    <a th:href="@{/music/artist(artistId=${artist.id})}" class="artist-link">
+                        <h5 th:text="${artist.name}" class="card-title artist-name">Artist Name</h5>
+                    </a>
+                </div>
+                <a th:href="@{/music/deleteArtist(artistId=${artist.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!confirm('Are you sure you want to delete this artist?')) return false;">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </a>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

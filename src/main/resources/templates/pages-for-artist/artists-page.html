@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All artists</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/artists-page.css}">
+</head>
+<body>
+<div th:insert="fragments/sidebar :: sidebar"></div>
+
+<div class="container">
+    <form th:action="@{/music/searchResultArtists}" method="get">
+        <div class="input-group mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Search artist by name...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="mb-4">
+        <form th:action="@{/music/artists}" method="get">
+            <button type="submit" name="sort" value="asc" class="btn btn-primary">Sortuj A-Z</button>
+            <button type="submit" name="sort" value="desc" class="btn btn-secondary">Sortuj Z-A</button>
+        </form>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4" th:each="artist : ${artists}">
+            <div class="card artist-card">
+                <a th:href="@{/music/artist(artistId=${artist.id})}">
+                    <img th:src="${artist.photo}" alt="Artist Photo" class="card-img-top artist-photo">
+                </a>
+                <div class="card-body artist-info">
+                    <a th:href="@{/music/artist(artistId=${artist.id})}" class="artist-link">
+                        <h5 th:text="${artist.name}" class="card-title artist-name">Artist Name</h5>
+                    </a>
+                    <p th:text="${artist.description}" class="card-text artist-description">Artist Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
